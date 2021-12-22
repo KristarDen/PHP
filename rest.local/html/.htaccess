@@ -1,0 +1,10 @@
+RewriteEngine On
+
+## QSA - Query String Append - Add GET params
+## L   - Last (~ continue)
+## END - (~ break)
+## NC  - NoCase, case insensitive
+
+RewriteRule  ^home$        index.php?page=home    [L,NC,QSA]  
+RewriteRule  ^api/?(.*)$   api_router.php?dtl=$1  [END,NC,QSA]
+RewriteRule  ^gallery$     gallery.php            [END,NC,QSA]
