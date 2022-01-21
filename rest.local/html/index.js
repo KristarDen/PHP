@@ -19,7 +19,40 @@ document.addEventListener("DOMContentLoaded", function(){
 	if(!filePostButton) throw "filePostButton not found";
 	else filePostButton.onclick = filePost;
 	
+	const localeUaButton = document.getElementById("localeUaButton");
+	if(!localeUaButton) throw "localeUaButton not found";
+	else localeUaButton.onclick = localeUaButtonClick;
+	
+	const localeEnButton = document.getElementById("localeEnButton");
+	if(!localeEnButton) throw "localeEnButton not found";
+	else localeEnButton.onclick = localeEnButtonClick;
 });
+
+function localeEnButtonClick() {
+	fetch("/api/locale",{
+		method: "get",
+		headers: {
+			"Locale": "en"
+		}
+	})
+	.then(r=>r.text())
+	.then(t=>{
+		out.innerHTML = t;
+	});
+}
+
+function localeUaButtonClick() {
+	fetch("/api/locale",{
+		method: "get",
+		headers: {
+			"Locale": "ua"
+		}
+	})
+	.then(r=>r.text())
+	.then(t=>{
+		out.innerHTML = t;
+	});
+}
 
 function testGet() {
 	const out = document.getElementById("out");

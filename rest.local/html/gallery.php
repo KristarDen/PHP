@@ -12,6 +12,23 @@
 		margin: 5px;
 		padding: 5px;
 	}
+	gallery {
+		display: block;
+		background-color: snow;
+	}
+	gallery .picture {
+		border: 1px solid salmon;
+		box-shadow: 5px 5px 2px #aaa;
+		display: inline-block;
+		margin: 1vw;
+		padding: 1vw;
+	}
+	gallery .picture img {
+		max-width: 20vw;
+	}
+	gallery .picture b {
+		display: block;
+	}
 	</style>
 </head>
 <body>
@@ -20,11 +37,29 @@
 <uploader>
 	<input type="file" name="pictureFile" />
 	<br/>
-	<textarea name="pictureDescription">
-		Это самая лучшая
-	</textarea>
+	<input name="pictureDescriptionUk" value="Ця найкраща" />
+	<input name="pictureDescriptionEn" value="The best one" />
+	<input name="pictureDescriptionRu" value="Это самая лучшая" />
 	<button name="addPicture">Добавить</button>
 </uploader>
+
+<gallery></gallery>
+
+<paginator>
+	<button id="prevPage">Prev</button>
+	<button id="nextPage">Next</button>
+</paginator>
+
+<div id="dataFilter">
+	<input type="date" id="datePicker" />
+	<br/>
+	<button id="applyFilter">Filter</button>
+</div>
+
+<div id="langSwitch">
+	<select id="langSelect"></select>
+	<button id="setLang">Set</button>
+</div>
 
 <footer>
 <hr/>

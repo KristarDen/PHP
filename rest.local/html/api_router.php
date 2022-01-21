@@ -4,8 +4,8 @@ $dtl = empty( $_GET[ 'dtl' ] )
 		? "home" 
 		: trim( $_GET[ 'dtl' ] ) ;
 
-if( $dtl == 'gallery' )	{
-	include "gallery_api.php" ;
+if( $dtl == 'gallery' or $dtl == 'locale' )	{
+	include $dtl . "_api.php" ;
 	exit ;
 }
 

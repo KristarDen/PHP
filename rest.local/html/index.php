@@ -18,6 +18,12 @@
 	<button id="filePostButton">POST</button>
 </div>
 
+<div style="border: 1px solid darksalmon; margin: 2vh 0; padding: 1vw 2vw">
+	<button id="localeUaButton">Locale: Ua</button>
+	<button id="localeEnButton">Locale: En</button>
+	<button id="localeRuButton">Locale: Ru</button>
+</div>
+
 <p id=out></p>
 
 <hr/>
