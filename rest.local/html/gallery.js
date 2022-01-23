@@ -133,8 +133,7 @@ function showGallery(t) {
 	if(!cont) throw "Gallery container not found";
 	try {
 		var j = JSON.parse(t);
-// console.log(j);return;
-		if(j.warn.length != 0){  // show warnings if exist
+		if(j.warn.length != 0){ 
 			console.log(j.warn);
 		}
 	} 
@@ -145,14 +144,13 @@ function showGallery(t) {
 	}
 	const picTpl = `
 		<div class='picture'>
-			<img src='/pictures/{{filename}}' />
-			<b>{{moment}}</b>
-			<p>{{descr}}</p>
-		</div>
+			<div class="info"><img src='/pictures/{{filename}}'/><b>{{moment}}</b></div>
+			<div class="descr"><p>{{descr}}</p></div>
+		</div> 
 	`;
 	var contHTML = "";
 	for(let picId in j.data) {
-// console.log(picId, j.data[picId]); continue;
+	// console.log(picId, j.data[picId]); continue;
 		var descr = "";
 		for(let lang in j.data[picId].descr){
 			descr += lang + ':' + j.data[picId].descr[lang] + '<br/>' ;
