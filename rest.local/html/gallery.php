@@ -76,7 +76,7 @@
 			align-items: center;
 			width: fit-content;
 			height: fit-content;
-			max-width: 20vh;
+			max-width: 25vh;
 			border: 2px solid burlywood;
 			border-radius: 5px;
 			background-color: wheat;
