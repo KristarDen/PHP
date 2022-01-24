@@ -2,11 +2,11 @@
 $smtp_prot="ssl";
 $smtp_host="smtp.ukr.net";
 $smtp_port="465";
-$smtp_pass="ZUZJemtGYmFNaDVOcGxJbQ==";
-$smtp_user="dGVzdHVueWNoQHVrci5uZXQ=";
+$smtp_pass="kHIey6ANKTP0m2w1";
+$smtp_user="php_gallery";
 
 $smtp_context = array('ssl' => array('verify_peer'=> false, 'verify_peer_name' => false));
-$smtp_box="testunych@ukr.net";  // Razrab0tka
+$smtp_box="demirov_denis@ukr.net";  // Razrab0tka
 
 function ansread($sc){//Получение ответа из сокета 
   $rt="";
@@ -17,7 +17,7 @@ function ansread($sc){//Получение ответа из сокета
   return $rt;
 }
 
-$to      = "denniksam@gmail.com";
+$to      = "denis216051@gmail.com";
 $txtpart = "Text part of letter";
 $fname   = "updown.jpg";
 $sbj     = "Изучаем SMTP" ;
