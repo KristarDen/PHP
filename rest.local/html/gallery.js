@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	initFilter();
 	initLangSwitch();
 });
+var Is_Filter_Set = false; //date filter switcher
+
 function initLangSwitch() {
 	const langSwitch = document.getElementById("langSwitch");
 	const langSelect = document.getElementById("langSelect");
@@ -36,13 +38,18 @@ function langChange() {
 		alert("Select lang before switching");
 		return;
 	}
-	loadGallery({'lang': opt.value});
+	let currentPage = parseInt(document.getElementById("currPage").innerHTML);
+	loadGallery({'lang': opt.value, page : currentPage});
 }
 
 function initFilter() {
 	const applyFilter = document.querySelector("#applyFilter");
+	const cancelFilter = document.querySelector("#cancelFilter");
 	if(!applyFilter) throw "applyFilter button not found";
+	if(!cancelFilter) throw "cancelFilter button not found";
+
 	applyFilter.addEventListener("click", applyFilterClick);
+	cancelFilter.addEventListener("click", cancelFilterClick);
 }
 function applyFilterClick() {
 	const datePicker = document.querySelector("#datePicker");
@@ -52,7 +59,14 @@ function applyFilterClick() {
 		alert("Select date to filter");
 		return;
 	}
-	loadGallery({'date': date});
+	Is_Filter_Set = true;
+	let currentPage = parseInt(document.getElementById("currPage").innerHTML);
+	loadGallery({'date': date, page : currentPage});
+}
+function cancelFilterClick() {
+	Is_Filter_Set = false;
+	let currentPage = parseInt(document.getElementById("currPage").innerHTML);
+	loadGallery({page : currentPage});
 }
 
 function initPaginator() {
@@ -67,16 +81,35 @@ function initPaginator() {
 function prevButtonClick(e) {
 	const cont = document.querySelector("gallery");
 	if(!cont) throw "Gallery container not found";
+
 	var currentPage = cont.getAttribute("pageNumber");
 	currentPage--;
-	loadGallery({page: currentPage});
+
+	const opt = document.querySelector("#langSelect option:checked");
+	const datePicker = document.querySelector("#datePicker");
+	const date = datePicker.value;
+	if(Is_Filter_Set == true){
+		loadGallery({'date': date,'lang': opt.value, page : currentPage});
+	} else{
+		loadGallery({'lang': opt.value, page : currentPage});
+	}
 }
 function nextButtonClick(e) {
 	const cont = document.querySelector("gallery");
 	if(!cont) throw "Gallery container not found";
+
 	var currentPage = cont.getAttribute("pageNumber");
 	currentPage++;
-	loadGallery({page: currentPage});
+
+	const opt = document.querySelector("#langSelect option:checked");
+	const datePicker = document.querySelector("#datePicker");
+	const date = datePicker.value;
+	if(Is_Filter_Set == true){
+		loadGallery({'date': date,'lang': opt.value, page : currentPage});
+	} else{
+		loadGallery({'lang': opt.value, page : currentPage});
+	}
+	
 }
 
 function addPictureClick(e) {
@@ -97,10 +130,8 @@ function addPictureClick(e) {
 		] ) {
 			var picDescr = e.target.parentNode.querySelector(`[name=${elem}]`);
 			if(!picDescr) throw `${elem} not found`;
-			// console.log(picDescr.value);
 			fd.append(elem, picDescr.value);
 		}
-// console.log(fd); return ;
 		
 	fetch("/api/gallery",{
 		method: "post",
@@ -110,7 +141,10 @@ function addPictureClick(e) {
 		body: fd
 	})
 	.then(r=>r.text())
-	.then(console.log)
+	.then(console.log);
+
+	let currentPage = parseInt(document.getElementById("currPage").innerHTML);
+	loadGallery({page: currentPage});
 }
 
 function loadGallery(params) {
@@ -130,6 +164,8 @@ function loadGallery(params) {
 
 function showGallery(t) {
 	const cont = document.querySelector("gallery");
+	document.getElementById("nextPage").disabled = false;
+	document.getElementById("prevPage").disabled = false;
 	if(!cont) throw "Gallery container not found";
 	try {
 		var j = JSON.parse(t);
@@ -144,7 +180,7 @@ function showGallery(t) {
 	}
 	const picTpl = `
 		<div class='picture'>
-			<div class="info"><img src='/pictures/{{filename}}'/><b>{{moment}}</b></div>
+			<div class="info"><img src='/pictures/{{filename}}'/><b class="date">{{moment}}</b></div>
 			<div class="descr"><p>{{descr}}</p></div>
 		</div> 
 	`;
@@ -162,4 +198,11 @@ function showGallery(t) {
 	}
 	cont.innerHTML = contHTML;
 	cont.setAttribute("pageNumber", j.meta.page);
+	document.getElementById("currPage").innerHTML = "" + j.meta.page;
+	if( j.meta.page == j.meta.lastPage){
+		document.getElementById("nextPage").disabled = true;
+	}
+	if( j.meta.page == 1){
+		document.getElementById("prevPage").disabled = true;
+	}
 }
